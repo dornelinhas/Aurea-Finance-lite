@@ -26,7 +26,10 @@
     />
 
       <!-- Main content -->
-      <main class="flex-1 min-h-screen max-md:ml-0 max-md:pt-16 flex flex-col relative transition-all duration-300" :style="{ marginLeft: mobileOpen ? '0' : (desktopCollapsed ? '72px' : 'var(--sidebar-width)') }">
+      <main 
+        class="flex-1 min-h-screen pt-16 md:pt-0 flex flex-col relative transition-all duration-300 w-full overflow-x-hidden" 
+        :style="{ marginLeft: isMobile ? '0' : (desktopCollapsed ? '72px' : 'var(--sidebar-width)') }"
+      >
         <!-- Desktop Header -->
         <header class="h-16 bg-[var(--color-surface-secondary)] border-b border-[var(--color-border)] flex items-center justify-between px-6 shrink-0 max-md:hidden sticky top-0 z-[50]">
           <div class="flex items-center gap-1.5 text-[var(--color-text-primary)]">
@@ -232,7 +235,14 @@ let observer = null
 const cards = ref([])
 const categories = ref([])
 
+const isMobile = ref(false)
+const checkMobile = () => {
+  isMobile.value = window.innerWidth < 768
+}
+
 onMounted(async () => {
+  checkMobile()
+  window.addEventListener('resize', checkMobile)
   on('open-upgrade-modal', () => {
     showUpgradeModal.value = true
   })
@@ -253,6 +263,7 @@ onMounted(async () => {
 })
 
 onUnmounted(() => {
+  window.removeEventListener('resize', checkMobile)
   if (observer) observer.disconnect()
 })
 

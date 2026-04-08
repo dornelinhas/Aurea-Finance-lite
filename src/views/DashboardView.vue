@@ -1,6 +1,6 @@
 <template>
   <div class="h-full flex flex-col bg-[var(--color-bg)] overflow-auto font-[var(--font-sans)]">
-    <div class="px-6 py-6 pb-12 w-full max-w-[1200px] mx-auto">
+    <div class="px-4 md:px-6 py-6 pb-12 w-full max-w-[1200px] mx-auto">
       
       <!-- Premium Upgrade Banner -->
       <div class="mb-8 p-5 md:p-6 rounded-3xl bg-[var(--color-accent)] flex flex-col md:flex-row items-center md:justify-between text-white anim-section border border-white/5 gap-6 text-center md:text-left">

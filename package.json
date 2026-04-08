@@ -1,0 +1,67 @@
+{
+  "name": "aureafinance",
+  "version": "1.0.0",
+  "description": "Aplicativo de gestão financeira Aurea Finance",
+  "author": "Anne Dorneles",
+  "type": "module",
+  "main": "electron/main.js",
+  "scripts": {
+    "dev": "vite",
+    "server": "node server/index.js",
+    "start:all": "concurrently -k \"npm run server\" \"npm run dev -- --open\"",
+    "build": "vite build",
+    "electron:dev": "concurrently -k \"vite\" \"wait-on tcp:5173 && cross-env NODE_ENV=development electron .\"",
+    "build:win": "vite build && electron-builder --win",
+    "preview": "vite preview"
+  },
+  "build": {
+    "appId": "com.aureafinance.app",
+    "productName": "Aurea Finance",
+    "directories": {
+      "output": "release"
+    },
+    "files": [
+      "dist/**/*",
+      "electron/**/*",
+      "server/**/*",
+      "package.json"
+    ],
+    "asar": true,
+    "asarUnpack": [
+      "**/*.node"
+    ],
+    "win": {
+      "target": "nsis"
+    },
+    "nsis": {
+      "oneClick": false,
+      "perMachine": false,
+      "allowToChangeInstallationDirectory": true
+    }
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.21.0",
+    "node-cron": "^4.2.1",
+    "sqlite": "^5.1.1",
+    "sqlite3": "^6.0.1",
+    "zod": "^4.3.6"
+  },
+  "devDependencies": {
+    "@tailwindcss/cli": "^4.2.2",
+    "@tailwindcss/vite": "^4.2.2",
+    "@vitejs/plugin-vue": "^5.2.1",
+    "chart.js": "^4.4.7",
+    "concurrently": "^9.2.1",
+    "cross-env": "^7.0.3",
+    "electron": "^34.2.0",
+    "electron-builder": "^26.0.0",
+    "pinia": "^3.0.4",
+    "tailwindcss": "^4.2.2",
+    "vite": "^6.2.0",
+    "vue": "^3.5.13",
+    "vue-router": "^4.5.0",
+    "wait-on": "^8.0.2",
+    "xlsx": "^0.18.5"
+  }
+}

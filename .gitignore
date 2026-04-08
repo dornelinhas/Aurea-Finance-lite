@@ -1,0 +1,12 @@
+node_modules/
+dist/
+release/
+*.db
+*.sqlite
+*.sqlite-journal
+*.sqlite-wal
+.env
+.DS_Store
+Thumbs.db
+electron/dist/
+package-lock.json

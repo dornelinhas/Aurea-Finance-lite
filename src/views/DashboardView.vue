@@ -3,19 +3,19 @@
     <div class="px-6 py-6 pb-12 w-full max-w-[1200px] mx-auto">
       
       <!-- Premium Upgrade Banner -->
-      <div class="mb-8 p-6 rounded-3xl bg-[var(--color-accent)] flex items-center justify-between text-white anim-section border border-white/5">
-        <div class="flex items-center gap-6">
-          <div class="w-14 h-14 bg-white/20 backdrop-blur-md rounded-2xl flex items-center justify-center shrink-0 border border-white/10">
-            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+      <div class="mb-8 p-5 md:p-6 rounded-3xl bg-[var(--color-accent)] flex flex-col md:flex-row items-center md:justify-between text-white anim-section border border-white/5 gap-6 text-center md:text-left">
+        <div class="flex flex-col md:flex-row items-center gap-4 md:gap-6">
+          <div class="w-12 h-12 md:w-14 md:h-14 bg-white/20 backdrop-blur-md rounded-2xl flex items-center justify-center shrink-0 border border-white/10">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
               <path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/>
             </svg>
           </div>
           <div>
-            <h2 class="text-xl font-black tracking-tight leading-tight mb-1 text-white">Eleve sua Gestão com Aurea Pro</h2>
-            <p class="text-white/90 text-sm font-medium">Desbloqueie relatórios anuais, controle de assinaturas e gestão de estoque.</p>
+            <h2 class="text-lg md:text-xl font-black tracking-tight leading-tight mb-1 text-white">Eleve sua Gestão com Aurea Pro</h2>
+            <p class="text-white/90 text-xs md:text-sm font-medium">Relatórios anuais, assinaturas e estoque.</p>
           </div>
         </div>
-        <button @click="$router.push('/upgrade')" class="px-6 py-3 bg-white text-[var(--color-accent)] font-black text-xs rounded-xl shadow-lg hover:scale-105 transition-all active:scale-95 uppercase tracking-widest border-none">Saiba Mais</button>
+        <button @click="$router.push('/upgrade')" class="w-full md:w-auto px-8 py-3 bg-white text-[var(--color-accent)] font-black text-xs rounded-xl shadow-lg hover:scale-105 transition-all active:scale-95 uppercase tracking-widest border-none">Conhecer</button>
       </div>
 
       <!-- Insights Row -->

@@ -1,30 +1,32 @@
 <template>
   <div class="flex min-h-screen bg-[var(--color-bg)] font-[var(--font-sans)]">
     <!-- Mobile header -->
-    <div class="hidden max-md:flex fixed top-0 left-0 right-0 h-14 bg-[var(--color-surface-secondary)] border-b border-[var(--color-border)] z-[99] items-center justify-between px-4">
-      <button class="bg-transparent border-none text-lg font-extrabold text-[var(--color-text-primary)] cursor-pointer p-2 font-[var(--font-sans)]" @click="mobileOpen = true">Menu</button>
-      <span class="font-extrabold text-base tracking-tight">Aurea Finance</span>
-      <button class="bg-[var(--color-surface-secondary)] border border-[var(--color-border)] rounded-md px-3 py-1.5 cursor-pointer text-xs font-semibold text-[var(--color-text-secondary)] font-[var(--font-sans)] transition-all duration-150 hover:bg-[var(--color-hover)] hover:text-[var(--color-text-primary)]" @click="toggleTheme">
-        {{ theme === 'dark' ? 'Light' : 'Dark' }}
+    <div class="hidden max-md:flex fixed top-0 left-0 right-0 h-16 bg-[var(--color-surface-secondary)]/80 backdrop-blur-md border-b border-[var(--color-border)] z-[100] items-center justify-between px-5">
+      <button class="bg-transparent border-none text-[15px] font-black text-[var(--color-text-primary)] cursor-pointer py-2 pr-4 font-[var(--font-sans)] uppercase tracking-tighter" @click="mobileOpen = true">Menu</button>
+      <span class="font-black text-lg tracking-tighter text-[var(--color-text-primary)]">Aurea Finance</span>
+      <button class="bg-[var(--color-surface)] border border-[var(--color-border)] rounded-full w-9 h-9 flex items-center justify-center cursor-pointer shadow-sm active:scale-90 transition-all" @click="toggleTheme">
+        <span v-if="theme === 'dark'">☀</span>
+        <span v-else>🌙</span>
       </button>
     </div>
 
     <!-- Sidebar backdrop (mobile) -->
     <div
-      class="hidden fixed inset-0 bg-black/30 z-[99] backdrop-blur-[4px]"
-      :class="{ '!block z-[150]': mobileOpen }"
+      class="hidden fixed inset-0 bg-black/40 z-[150] backdrop-blur-[2px] transition-opacity duration-300"
+      :class="{ '!block opacity-100': mobileOpen }"
       @click="mobileOpen = false"
     />
 
     <!-- Sidebar -->
     <AppSidebar
       :class="{ 'translate-x-0!': mobileOpen, 'w-[72px]!': desktopCollapsed }"
+      class="max-md:w-[280px]! max-md:shadow-2xl transition-transform duration-300 ease-out"
       :collapsed="desktopCollapsed"
       @navigate="mobileOpen = false"
     />
 
       <!-- Main content -->
-      <main class="flex-1 min-h-screen max-md:ml-0 max-md:pt-14 flex flex-col relative transition-all duration-300" :style="{ marginLeft: mobileOpen ? '0' : (desktopCollapsed ? '72px' : 'var(--sidebar-width)') }">
+      <main class="flex-1 min-h-screen max-md:ml-0 max-md:pt-16 flex flex-col relative transition-all duration-300" :style="{ marginLeft: mobileOpen ? '0' : (desktopCollapsed ? '72px' : 'var(--sidebar-width)') }">
         <!-- Desktop Header -->
         <header class="h-16 bg-[var(--color-surface-secondary)] border-b border-[var(--color-border)] flex items-center justify-between px-6 shrink-0 max-md:hidden sticky top-0 z-[50]">
           <div class="flex items-center gap-1.5 text-[var(--color-text-primary)]">

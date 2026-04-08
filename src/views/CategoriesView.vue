@@ -50,7 +50,7 @@
                   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
                 </button>
                 <button class="p-1.5 rounded-md text-[var(--color-text-secondary)] hover:bg-[var(--color-hover)] hover:text-[var(--color-accent)] transition-colors" @click="openModal(cat)" title="Editar">
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"></path><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path></svg>
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"></path><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path></svg>
                 </button>
                 <button class="p-1.5 rounded-md text-[var(--color-text-secondary)] hover:bg-[var(--color-expense-bg)] hover:text-[var(--color-expense)] transition-colors" @click="remove(cat.id)" title="Excluir">
                   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
@@ -122,7 +122,7 @@
                   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
                 </button>
                 <button class="p-1.5 rounded-md text-[var(--color-text-secondary)] hover:bg-[var(--color-hover)] hover:text-[var(--color-accent)] transition-colors" @click="openModal(cat)" title="Editar">
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"></path><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path></svg>
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"></path><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path></svg>
                 </button>
                 <button class="p-1.5 rounded-md text-[var(--color-text-secondary)] hover:bg-[var(--color-expense-bg)] hover:text-[var(--color-expense)] transition-colors" @click="remove(cat.id)" title="Excluir">
                   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
@@ -193,16 +193,15 @@
 </template>
 
 <script setup>
-import { ref, computed, onMounted, watch } from 'vue'
+import { ref, computed, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { api } from '../api/index.js'
 import { useEventBus } from '../composables/useEventBus.js'
 import AppModal from '../components/AppModal.vue'
 
 const router = useRouter()
-const { on, emit: busEmit } = useEventBus()
+const { on } = useEventBus()
 
-const MONTHS = ['Jan','Fev','Mar','Abr','Mai','Jun','Jul','Ago','Set','Out','Nov','Dez']
 const today = new Date()
 const currentYear = today.getFullYear()
 const currentMonth = today.getMonth()
@@ -298,12 +297,12 @@ async function save() {
   if (!editing.value) {
     if (form.value.type === 'expense' && expenseCategories.value.length >= 5) {
       closeModal()
-      busEmit('open-upgrade-modal')
+      router.push('/upgrade')
       return
     }
     if (form.value.type === 'income' && incomeCategories.value.length >= 2) {
       closeModal()
-      busEmit('open-upgrade-modal')
+      router.push('/upgrade')
       return
     }
   }

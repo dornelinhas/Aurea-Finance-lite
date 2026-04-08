@@ -105,6 +105,7 @@
 
 <script setup>
 import { ref, computed, onMounted, toRaw } from 'vue'
+import { useRouter } from 'vue-router'
 import { useFinanceStore } from '../stores/finance.js'
 import { useFinanceUtils } from '../composables/useFinanceUtils.js'
 import { useInsights } from '../composables/useInsights.js'
@@ -122,6 +123,7 @@ import DashboardForecast from '../components/dashboard/DashboardForecast.vue'
 import DashboardCharts from '../components/dashboard/DashboardCharts.vue'
 import DashboardAlerts from '../components/dashboard/DashboardAlerts.vue'
 
+const router = useRouter()
 const store = useFinanceStore()
 const { fmt, savingsRate, totalIncome, totalExpense } = useFinanceUtils()
 const { addNotification } = useNotifications()

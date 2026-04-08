@@ -66,9 +66,11 @@
 </template>
 
 <script setup>
+import { useRouter } from 'vue-router'
 import { useTheme } from '../composables/useTheme.js'
 import { useEventBus } from '../composables/useEventBus.js'
 
+const router = useRouter()
 const { theme } = useTheme()
 const { emit } = useEventBus()
 

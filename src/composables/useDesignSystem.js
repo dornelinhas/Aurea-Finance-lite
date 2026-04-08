@@ -108,21 +108,11 @@ const PRESETS = {
 }
 
 function loadColors() {
-  try {
-    const saved = localStorage.getItem('ff-design-colors')
-    return saved ? JSON.parse(saved) : { ...PRESETS.light[0].colors }
-  } catch {
-    return { ...PRESETS.light[0].colors }
-  }
+  return { ...PRESETS.light[0].colors }
 }
 
 function loadDarkColors() {
-  try {
-    const saved = localStorage.getItem('ff-design-colors-dark')
-    return saved ? JSON.parse(saved) : { ...PRESETS.dark[0].colors }
-  } catch {
-    return { ...PRESETS.dark[0].colors }
-  }
+  return { ...PRESETS.dark[0].colors }
 }
 
 const colors = ref(loadColors())

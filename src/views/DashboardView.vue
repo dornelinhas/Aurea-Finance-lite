@@ -2,6 +2,22 @@
   <div class="h-full flex flex-col bg-[var(--color-bg)] overflow-auto font-[var(--font-sans)]">
     <div class="px-6 py-6 pb-12 w-full max-w-[1200px] mx-auto">
       
+      <!-- Premium Upgrade Banner -->
+      <div class="mb-8 p-6 rounded-3xl bg-[var(--color-accent)] flex items-center justify-between text-white anim-section border border-white/5">
+        <div class="flex items-center gap-6">
+          <div class="w-14 h-14 bg-white/20 backdrop-blur-md rounded-2xl flex items-center justify-center shrink-0 border border-white/10">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/>
+            </svg>
+          </div>
+          <div>
+            <h2 class="text-xl font-black tracking-tight leading-tight mb-1 text-white">Eleve sua Gestão com Aurea Pro</h2>
+            <p class="text-white/90 text-sm font-medium">Desbloqueie relatórios anuais, controle de assinaturas e gestão de estoque.</p>
+          </div>
+        </div>
+        <button @click="$router.push('/upgrade')" class="px-6 py-3 bg-white text-[var(--color-accent)] font-black text-xs rounded-xl shadow-lg hover:scale-105 transition-all active:scale-95 uppercase tracking-widest border-none">Saiba Mais</button>
+      </div>
+
       <!-- Insights Row -->
       <div v-if="insights.length > 0" class="flex flex-col gap-4 mb-6 anim-section">
         <InsightCard 
@@ -28,13 +44,8 @@
       <!-- Middle Row: Upcoming + Categories summary -->
       <DashboardAlerts />
 
-      <!-- Bottom Row: Health & Savings -->
-      <div class="grid grid-cols-2 gap-5 max-md:grid-cols-1 anim-section delay-4">
-        <div class="bg-[var(--color-surface)] border border-[var(--color-border)] rounded-2xl p-6 shadow-sm flex flex-col items-center justify-center">
-          <h3 class="text-[11px] font-bold text-[var(--color-text-secondary)] uppercase tracking-widest mb-4">Saúde Financeira</h3>
-          <HealthScore :score="healthScore" />
-        </div>
-
+      <!-- Bottom Row: Savings -->
+      <div class="grid grid-cols-1 gap-5 anim-section delay-4">
         <div class="bg-[var(--color-surface)] border border-[var(--color-border)] rounded-2xl p-6 shadow-sm flex flex-col justify-between">
           <div>
             <div class="flex items-center justify-between mb-4">

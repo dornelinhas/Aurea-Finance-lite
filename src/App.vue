@@ -171,27 +171,14 @@
           </div>
           <input type="checkbox" v-model="quickForm.is_paid" class="w-5 h-5 rounded border-[var(--color-border)] text-[var(--color-accent)] focus:ring-[var(--color-accent)] cursor-pointer">
         </div>
-        <div v-if="quickForm.type === 'expense'" class="mb-4 flex items-center justify-between p-4 rounded-xl border border-[var(--color-border)] bg-[var(--color-expense-bg)]/20">
-          <div>
-            <p class="text-sm font-bold text-[var(--color-expense)]">Eu devo esse valor a alguém?</p>
-            <p class="text-[11px] text-[var(--color-text-secondary)] font-medium">Marque como dívida para pagar depois.</p>
-          </div>
-          <input type="checkbox" v-model="quickForm.is_debt" @change="quickForm.is_debt ? quickForm.is_paid = false : null" class="w-6 h-6 rounded border-[var(--color-border)] text-[var(--color-expense)] focus:ring-[var(--color-expense)] cursor-pointer">
-        </div>
-        
-        <div v-if="quickForm.type === 'expense'" class="mb-4 flex items-center justify-between p-4 rounded-xl border border-[var(--color-border)]">
-          <div>
-            <p class="text-sm font-bold text-[var(--color-text-primary)]">Essa despesa é minha?</p>
-            <p class="text-[11px] text-[var(--color-text-secondary)] font-medium">Desmarque se for uma compra feita para terceiros.</p>
-          </div>
-          <input type="checkbox" v-model="quickForm.is_personal" class="w-6 h-6 rounded border-[var(--color-border)] text-[var(--color-accent)] focus:ring-[var(--color-accent)] cursor-pointer">
-        </div>
         
         <template #footer>
           <button class="inline-flex items-center justify-center gap-1.5 px-4.5 py-2.5 rounded-lg text-sm font-semibold cursor-pointer transition-all duration-150 border border-[var(--color-border)] bg-[var(--color-surface-secondary)] text-[var(--color-text-primary)] hover:bg-[var(--color-hover)]" @click="closeQuickAdd">Cancelar</button>
           <button class="inline-flex items-center justify-center gap-1.5 px-4.5 py-2.5 rounded-lg text-sm font-semibold cursor-pointer transition-all duration-150 border-none bg-[var(--color-accent)] text-white hover:bg-[var(--color-accent-hover)]" @click="saveQuickAdd">Lançar</button>
         </template>
       </AppModal>
+
+      <UpgradeModal :visible="showUpgradeModal" @close="showUpgradeModal = false" @upgrade="showUpgradeModal = false" />
 
       <!-- Apple-Style Global Footer - Simplified -->
       <footer ref="footerRef" class="mt-auto pt-16 pb-12 px-8 bg-[var(--color-bg)]">
@@ -222,22 +209,32 @@
 import { ref, onMounted, onUnmounted, nextTick, computed } from 'vue'
 import AppSidebar from './components/AppSidebar.vue'
 import AppModal from './components/AppModal.vue'
+import UpgradeModal from './components/UpgradeModal.vue'
 import { useTheme } from './composables/useTheme.js'
 import { useEventBus } from './composables/useEventBus.js'
 import { useNotifications } from './composables/useNotifications.js'
 import { api } from './api/index.js'
 
 const { theme, toggleTheme } = useTheme()
-const { emit } = useEventBus()
+const { emit, on } = useEventBus()
 const { notifications, unreadCount, clearNotifications, removeNotification } = useNotifications()
 
 const mobileOpen = ref(false)
 const desktopCollapsed = ref(false)
 const showNotifications = ref(false)
+const showUpgradeModal = ref(false)
+const footerVisible = ref(false)
+const footerRef = ref(null)
+let observer = null
+
 const cards = ref([])
 const categories = ref([])
 
 onMounted(async () => {
+  on('open-upgrade-modal', () => {
+    showUpgradeModal.value = true
+  })
+
   const [c, cats] = await Promise.all([
     api.getCreditCards(),
     api.getCategories()

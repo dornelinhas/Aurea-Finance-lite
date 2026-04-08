@@ -81,6 +81,32 @@ html[data-theme="dark"] .dark-mode-logo {
   filter: brightness(0) invert(1) !important;
 }
 
+/* ── Nature Theme ────────────────────────────────────────────── */
+
+html[data-theme="nature"] {
+  --color-bg: #F1F8E9;
+  --color-surface: #FFFFFF;
+  --color-surface-secondary: #DCEDC8;
+  --color-text-primary: #33691E;
+  --color-text-secondary: #558B2F;
+  --color-text-tertiary: rgba(85, 139, 47, 0.6);
+  --color-border: rgba(51, 105, 30, 0.1);
+  --color-separator: rgba(51, 105, 30, 0.15);
+  --color-hover: rgba(51, 105, 30, 0.05);
+
+  --color-accent: #2E7D32;
+  --color-accent-hover: #1B5E20;
+  --color-accent-bg: rgba(46, 125, 50, 0.1);
+  --color-secondary: #8BC34A;
+  --color-highlight: #AED581;
+  --color-income: #43A047;
+  --color-income-bg: rgba(67, 160, 71, 0.1);
+  --color-expense: #E53935;
+  --color-expense-bg: rgba(229, 57, 53, 0.1);
+  --color-warning: #FB8C00;
+  --color-warning-bg: rgba(251, 140, 0, 0.1);
+}
+
 body {
   font-family: var(--font-sans);
   font-size: 14px;

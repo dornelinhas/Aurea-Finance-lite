@@ -36,7 +36,6 @@
             <div class="flex justify-between items-start mb-5">
               <div class="flex items-center gap-3">
                 <div class="w-10 h-10 rounded-xl flex items-center justify-center text-white shadow-sm" :style="{ backgroundColor: cat.color }">
-                  <!-- Generic category icon (using initials or a simple shape) -->
                   <span class="font-bold text-[15px] uppercase tracking-widest">{{ cat.name.substring(0, 2) }}</span>
                 </div>
                 <div>
@@ -46,7 +45,6 @@
                 </div>
               </div>
               
-              <!-- Quick Actions on hover -->
               <div class="flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity max-sm:opacity-100">
                 <button class="p-1.5 rounded-md text-[var(--color-text-secondary)] hover:bg-[var(--color-income-bg)] hover:text-[var(--color-income)] transition-colors" @click="quickAdd(cat)" title="Adicionar Lançamento">
                   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
@@ -60,7 +58,6 @@
               </div>
             </div>
 
-            <!-- Spending Data -->
             <div v-if="cat.budget_limit > 0" class="mt-2">
               <div class="flex justify-between items-end mb-2.5">
                 <div>
@@ -82,7 +79,6 @@
                 </div>
               </div>
             </div>
-            
             <div v-else class="mt-2">
               <p class="text-[24px] font-light tracking-tight text-[var(--color-text-primary)] leading-none mb-1">{{ fmt(spent[cat.name] || 0) }}</p>
               <p class="text-[11px] font-semibold text-[var(--color-text-tertiary)] uppercase tracking-wider">Gasto no mês</p>
@@ -107,7 +103,6 @@
 
         <div v-else class="grid grid-cols-3 gap-5 max-lg:grid-cols-2 max-sm:grid-cols-1">
           <div v-for="cat in incomeCategories" :key="cat.id" class="bg-[var(--color-surface)] border border-[var(--color-border)] rounded-2xl p-6 shadow-sm hover:border-[var(--color-text-tertiary)] transition-colors relative overflow-hidden group anim-card">
-            <!-- Top color accent -->
             <div class="absolute top-0 left-0 right-0 h-1" :style="{ backgroundColor: cat.color }"></div>
             
             <div class="flex justify-between items-start mb-5">
@@ -135,7 +130,6 @@
               </div>
             </div>
 
-            <!-- Income Data -->
             <div v-if="cat.budget_limit > 0" class="mt-2">
               <div class="flex justify-between items-end mb-2.5">
                 <div>
@@ -157,7 +151,6 @@
                 </div>
               </div>
             </div>
-            
             <div v-else class="mt-2">
               <p class="text-[24px] font-light tracking-tight text-[var(--color-text-primary)] leading-none mb-1">{{ fmt(spent[cat.name] || 0) }}</p>
               <p class="text-[11px] font-semibold text-[var(--color-text-tertiary)] uppercase tracking-wider">Recebido no mês</p>
@@ -191,16 +184,6 @@
         </label>
         <input class="form-input" type="number" step="0.01" v-model.number="form.budget_limit" :placeholder="form.type === 'expense' ? '600' : '5000'" />
       </div>
-      <div class="mb-4">
-        <label class="block text-xs font-semibold text-[var(--color-text-secondary)] mb-1.5 uppercase tracking-wider">Cor de Identificação</label>
-        <div class="flex items-center gap-3">
-          <div class="relative w-10 h-10 rounded-full overflow-hidden border border-[var(--color-border)] shadow-sm">
-            <input type="color" v-model="form.color" class="absolute -top-2 -left-2 w-16 h-16 cursor-pointer opacity-0" />
-            <div class="w-full h-full pointer-events-none" :style="{ backgroundColor: form.color }"></div>
-          </div>
-          <span class="text-sm text-[var(--color-text-secondary)] font-medium">{{ form.color.toUpperCase() }}</span>
-        </div>
-      </div>
       <template #footer>
         <button class="inline-flex items-center justify-center gap-1.5 px-4.5 py-2.5 rounded-lg text-sm font-semibold cursor-pointer transition-all duration-150 border border-[var(--color-border)] bg-[var(--color-surface-secondary)] text-[var(--color-text-primary)] hover:bg-[var(--color-hover)]" @click="closeModal">Cancelar</button>
         <button class="inline-flex items-center justify-center gap-1.5 px-4.5 py-2.5 rounded-lg text-sm font-semibold cursor-pointer transition-all duration-150 border-none bg-[var(--color-accent)] text-white hover:bg-[var(--color-accent-hover)]" @click="save">{{ editing ? 'Salvar Alterações' : 'Criar Categoria' }}</button>
@@ -210,20 +193,19 @@
 </template>
 
 <script setup>
-import { ref, computed, onMounted, onUnmounted } from 'vue'
+import { ref, computed, onMounted, watch } from 'vue'
 import { useRouter } from 'vue-router'
 import { api } from '../api/index.js'
 import { useEventBus } from '../composables/useEventBus.js'
 import AppModal from '../components/AppModal.vue'
 
 const router = useRouter()
-const { on } = useEventBus()
+const { on, emit: busEmit } = useEventBus()
 
 const MONTHS = ['Jan','Fev','Mar','Abr','Mai','Jun','Jul','Ago','Set','Out','Nov','Dez']
 const today = new Date()
 const currentYear = today.getFullYear()
 const currentMonth = today.getMonth()
-const monthLabel = MONTHS[currentMonth]
 
 const fmt = v => new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(v || 0)
 
@@ -264,16 +246,13 @@ const monthTxns = computed(() =>
 
 const spent = computed(() => {
   const map = {}
-  // Start with actual transactions
   monthTxns.value.forEach(t => { 
     map[t.category] = (map[t.category] || 0) + t.amount 
   })
   
-  // Add projected subscriptions that haven't been processed yet this month
   subscriptions.value.filter(s => !!s.active).forEach(s => {
     const subTxnName = 'Assinatura: ' + s.name
     const hasBeenProcessed = monthTxns.value.some(t => t.name === subTxnName)
-    
     if (!hasBeenProcessed && s.category) {
       map[s.category] = (map[s.category] || 0) + s.amount
     }
@@ -314,6 +293,21 @@ function closeModal() {
 
 async function save() {
   if (!form.value.name) return
+  
+  // Free version limits check
+  if (!editing.value) {
+    if (form.value.type === 'expense' && expenseCategories.value.length >= 5) {
+      closeModal()
+      busEmit('open-upgrade-modal')
+      return
+    }
+    if (form.value.type === 'income' && incomeCategories.value.length >= 2) {
+      closeModal()
+      busEmit('open-upgrade-modal')
+      return
+    }
+  }
+
   const data = { ...form.value, budget_limit: Number(form.value.budget_limit) || 0 }
   if (editing.value) {
     const updated = await api.updateCategory(editing.value, data)
@@ -326,7 +320,7 @@ async function save() {
 }
 
 async function remove(id) {
-  if (!confirm('Tem certeza que deseja excluir esta categoria? O histórico das transações será mantido, mas elas ficarão sem categoria.')) return
+  if (!confirm('Tem certeza que deseja excluir esta categoria?')) return
   await api.deleteCategory(id)
   categories.value = categories.value.filter(c => c.id !== id)
 }

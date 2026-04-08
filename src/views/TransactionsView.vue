@@ -6,32 +6,19 @@
         <p class="text-[13px] text-[var(--color-text-secondary)] mt-1 font-medium">{{ filtered.length }} registros</p>
       </div>
       <div class="flex gap-2 flex-nowrap">
-        <div class="flex bg-[var(--color-surface-secondary)]/50 p-1 rounded-xl border border-[var(--color-border)] mr-2">
-          <button 
-            class="px-4 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer border-none"
-            :class="viewTab === 'geral' ? 'bg-[var(--color-surface)] text-[var(--color-accent)] shadow-sm' : 'text-[var(--color-text-secondary)] hover:text-[var(--color-text-primary)]'"
-            @click="viewTab = 'geral'"
-          >Geral</button>
-          <button 
-            class="px-4 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer border-none"
-            :class="viewTab === 'debts' ? 'bg-[var(--color-surface)] text-[var(--color-expense)] shadow-sm' : 'text-[var(--color-text-secondary)] hover:text-[var(--color-text-primary)]'"
-            @click="viewTab = 'debts'"
-          >Dívidas Externas</button>
-        </div>
-        <button class="inline-flex items-center justify-center gap-1.5 px-4.5 py-2.5 rounded-lg text-sm font-semibold cursor-pointer transition-all duration-150 border border-[var(--color-border)] bg-[var(--color-surface-secondary)] text-[var(--color-text-primary)] hover:bg-[var(--color-hover)]" @click="handleExportExcel">Exportar Excel</button>
         <button class="inline-flex items-center justify-center gap-1.5 px-4.5 py-2.5 rounded-lg text-sm font-semibold cursor-pointer transition-all duration-150 border-none bg-[var(--color-accent)] text-white hover:bg-[var(--color-accent-hover)]" @click="openModal()">Nova Transação</button>
       </div>
     </div>
 
     <div class="px-8 py-6 pb-14">
       <!-- Summary Totals -->
-      <div v-if="viewTab === 'geral'" class="grid grid-cols-4 gap-4 mb-5 max-lg:grid-cols-2 max-md:grid-cols-1">
+      <div class="grid grid-cols-4 gap-4 mb-5 max-lg:grid-cols-2 max-md:grid-cols-1">
         <div class="bg-[var(--color-income-bg)] border border-[var(--color-income-bg)] rounded-xl px-6 py-5 shadow-sm">
-          <p class="text-[12px] font-black uppercase tracking-[0.1em] text-[var(--color-income)] mb-1.5">Receitas Pessoais</p>
+          <p class="text-[12px] font-black uppercase tracking-[0.1em] text-[var(--color-income)] mb-1.5">Receitas</p>
           <p class="text-2xl font-black text-[var(--color-income)]">{{ fmt(totIncome) }}</p>
         </div>
         <div class="bg-[var(--color-expense-bg)] border border-[var(--color-expense-bg)] rounded-xl px-6 py-5 shadow-sm">
-          <p class="text-[12px] font-black uppercase tracking-[0.1em] text-[var(--color-expense)] mb-1.5">Despesas Pessoais</p>
+          <p class="text-[12px] font-black uppercase tracking-[0.1em] text-[var(--color-expense)] mb-1.5">Despesas</p>
           <p class="text-2xl font-black text-[var(--color-expense)]">{{ fmt(totExpense) }}</p>
         </div>
         <div class="bg-[var(--color-surface)] border border-[var(--color-border)] rounded-xl px-6 py-5 shadow-sm">
@@ -41,20 +28,6 @@
         <div class="bg-[var(--color-surface)] border border-[var(--color-border)] rounded-xl px-6 py-5 shadow-sm">
           <p class="text-[12px] font-black uppercase tracking-[0.1em] text-[var(--color-text-secondary)] mb-1.5">Gasto Cartão</p>
           <p class="text-2xl font-black text-[var(--color-accent)]">{{ fmt(totCardExpense) }}</p>
-        </div>
-      </div>
-
-      <!-- External Debt Summary -->
-      <div v-else class="grid grid-cols-2 gap-4 mb-5">
-        <div class="bg-[var(--color-surface)] border-2 border-dashed border-[var(--color-income)]/30 rounded-2xl px-6 py-6 shadow-sm">
-          <p class="text-[12px] font-extrabold uppercase tracking-widest text-[var(--color-income)] mb-2">A Receber de Terceiros</p>
-          <p class="text-3xl font-black text-[var(--color-income)]">{{ fmt(totThirdParty) }}</p>
-          <p class="text-[11px] text-[var(--color-text-secondary)] mt-1">Dinheiro que você emprestou ou pagou para outros.</p>
-        </div>
-        <div class="bg-[var(--color-surface)] border-2 border-dashed border-[var(--color-expense)]/30 rounded-2xl px-6 py-6 shadow-sm">
-          <p class="text-[12px] font-extrabold uppercase tracking-widest text-[var(--color-expense)] mb-2">Dívidas que Eu Devo</p>
-          <p class="text-3xl font-black text-[var(--color-expense)]">{{ fmt(totMyDebts) }}</p>
-          <p class="text-[11px] text-[var(--color-text-secondary)] mt-1">Contas pendentes que você deve a terceiros.</p>
         </div>
       </div>
 
@@ -306,21 +279,6 @@
         </div>
         <input type="checkbox" v-model="form.is_paid" class="w-6 h-6 rounded border-[var(--color-border)] text-[var(--color-accent)] focus:ring-[var(--color-accent)] cursor-pointer">
       </div>
-      <div class="mb-4 flex items-center justify-between p-4 rounded-xl border border-[var(--color-border)] bg-[var(--color-surface-secondary)]/30">
-        <div>
-          <p class="text-sm font-bold text-[var(--color-text-primary)]">Essa despesa é minha?</p>
-          <p class="text-[11px] text-[var(--color-text-secondary)] font-medium">Se desmarcado, não será descontado do seu saldo pessoal.</p>
-        </div>
-        <input type="checkbox" v-model="form.is_personal" class="w-6 h-6 rounded border-[var(--color-border)] text-[var(--color-accent)] focus:ring-[var(--color-accent)] cursor-pointer">
-      </div>
-      <!-- Debt toggle (only for expenses) -->
-      <div v-if="form.type === 'expense'" class="mb-4 flex items-center justify-between p-4 rounded-xl border border-[var(--color-border)] bg-[var(--color-expense-bg)]/20">
-        <div>
-          <p class="text-sm font-bold text-[var(--color-expense)]">Eu devo esse valor a alguém?</p>
-          <p class="text-[11px] text-[var(--color-text-secondary)] font-medium">Marque como dívida para lembrar de pagar depois.</p>
-        </div>
-        <input type="checkbox" v-model="form.is_debt" @change="form.is_debt ? form.is_paid = false : null" class="w-6 h-6 rounded border-[var(--color-border)] text-[var(--color-expense)] focus:ring-[var(--color-expense)] cursor-pointer">
-      </div>
       <template #footer>
         <button class="inline-flex items-center justify-center gap-1.5 px-4.5 py-2.5 rounded-lg text-sm font-semibold cursor-pointer transition-all duration-150 border border-[var(--color-border)] bg-[var(--color-surface-secondary)] text-[var(--color-text-primary)] hover:bg-[var(--color-hover)]" @click="closeModal">Cancelar</button>
         <button class="inline-flex items-center justify-center gap-1.5 px-4.5 py-2.5 rounded-lg text-sm font-semibold cursor-pointer transition-all duration-150 border-none bg-[var(--color-accent)] text-white hover:bg-[var(--color-accent-hover)]" @click="save">{{ editing ? 'Salvar' : 'Adicionar' }}</button>
@@ -351,7 +309,6 @@ const editing = ref(null)
 const filter = ref('all')
 const search = ref('')
 const showAdvanced = ref(false)
-const viewTab = ref('geral')
 const sortDesc = ref(true)
 
 // Active filters (actually applied)
@@ -440,11 +397,8 @@ function clearAllFilters() {
 const filtered = computed(() => {
   let list = [...transactions.value]
   
-  if (viewTab.value === 'debts') {
-    list = list.filter(t => !t.is_personal || !!t.is_debt)
-  } else {
-    list = list.filter(t => !!t.is_personal && !t.is_debt)
-  }
+  // Lite version: Only personal and non-debt transactions are shown
+  list = list.filter(t => !!t.is_personal && !t.is_debt)
 
   if (filter.value !== 'all') list = list.filter(t => t.type === filter.value)
   if (search.value) {
@@ -470,25 +424,15 @@ const filtered = computed(() => {
 })
 
 const totIncome = computed(() => filtered.value.filter(t => t.type === 'income').reduce((s, t) => s + t.amount, 0))
-const totExpense = computed(() => filtered.value.filter(t => t.type === 'expense' && t.is_personal).reduce((s, t) => s + t.amount, 0))
+const totExpense = computed(() => filtered.value.filter(t => t.type === 'expense').reduce((s, t) => s + t.amount, 0))
 const totCardExpense = computed(() => {
   return filtered.value
-    .filter(t => t.type === 'expense' && t.account !== 'Conta Corrente' && t.account && t.is_personal)
+    .filter(t => t.type === 'expense' && t.account !== 'Conta Corrente' && t.account)
     .reduce((s, t) => s + t.amount, 0)
 })
 const totCashExpense = computed(() => {
   return filtered.value
-    .filter(t => t.type === 'expense' && (t.account === 'Conta Corrente' || !t.account) && t.is_personal)
-    .reduce((s, t) => s + t.amount, 0)
-})
-const totThirdParty = computed(() => {
-  return filtered.value
-    .filter(t => t.type === 'expense' && !t.is_personal)
-    .reduce((s, t) => s + t.amount, 0)
-})
-const totMyDebts = computed(() => {
-  return filtered.value
-    .filter(t => !!t.is_debt && !t.is_paid)
+    .filter(t => t.type === 'expense' && (t.account === 'Conta Corrente' || !t.account))
     .reduce((s, t) => s + t.amount, 0)
 })
 
@@ -520,8 +464,8 @@ function openModal(t = null) {
       type: t.type, 
       account: t.account || 'Conta Corrente',
       is_paid: !!t.is_paid,
-      is_personal: t.is_personal !== undefined ? !!t.is_personal : true,
-      is_debt: !!t.is_debt,
+      is_personal: true,
+      is_debt: false,
       is_installment: !!(t.installment_total && t.installment_total > 1),
       installments_paid: (t.installment_current || 1) - 1,
       installments_remaining: t.installment_total ? (t.installment_total - (t.installment_current || 1) + 1) : 1
@@ -561,7 +505,7 @@ async function save() {
   }
 
   try {
-    const data = { ...form.value, amount }
+    const data = { ...form.value, amount, is_personal: true, is_debt: false }
     
     if (!data.is_installment) {
       data.installments_paid = 0;

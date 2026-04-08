@@ -7,7 +7,10 @@
             <path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/>
           </svg>
         </div>
-        <h1 v-if="!collapsed" class="text-[22px] font-medium text-[var(--color-text-primary)] tracking-tight whitespace-nowrap">Aurea Finance</h1>
+        <div v-if="!collapsed" class="flex flex-col leading-none">
+          <h1 class="text-[20px] font-black text-[var(--color-text-primary)] tracking-tighter whitespace-nowrap">Aurea Finance</h1>
+          <span class="text-[11px] self-end font-serif italic text-[var(--color-accent)] opacity-70 -mt-1 pr-1">Lite</span>
+        </div>
       </div>
       
       <!-- Close button (Mobile only) -->
@@ -23,40 +26,46 @@
       <div class="mb-4">
         <p v-if="!collapsed" class="text-[11px] font-medium text-[var(--color-text-tertiary)] uppercase tracking-wider mb-2 px-2 whitespace-nowrap">Organização</p>
         <div class="flex flex-col gap-0.5">
-          <router-link
+          <div
             v-for="item in navGroup1"
             :key="item.name"
-            :to="item.to"
-            class="group flex items-center px-3 py-2 rounded-xl cursor-pointer transition-all duration-150 text-[var(--color-text-secondary)] text-[13px] font-medium no-underline hover:bg-[var(--color-hover)] hover:text-[var(--color-text-primary)]"
+            class="group flex items-center px-3 py-2 rounded-xl cursor-pointer transition-all duration-150 text-[var(--color-text-secondary)] text-[13px] font-medium no-underline hover:bg-[var(--color-hover)] hover:text-[var(--color-text-primary)] relative"
             :title="collapsed ? item.label : ''"
             :class="{ 'bg-[var(--color-accent-bg)]! text-[var(--color-accent)]!': $route.name === item.name || (item.name === 'dashboard' && $route.path === '/') }"
-            @click="$emit('navigate')"
+            @click="handleNav(item)"
           >
-            <div class="flex items-center gap-3">
-              <component :is="item.icon" class="w-[18px] h-[18px] shrink-0" :class="{ 'text-[var(--color-accent)]': $route.name === item.name || (item.name === 'dashboard' && $route.path === '/'), 'text-[var(--color-text-secondary)]': !($route.name === item.name || (item.name === 'dashboard' && $route.path === '/')) }" />
-              <span v-if="!collapsed" class="whitespace-nowrap">{{ item.label }}</span>
+            <div class="flex items-center justify-between w-full">
+              <div class="flex items-center gap-3">
+                <component :is="item.icon" class="w-[18px] h-[18px] shrink-0" :class="{ 'text-[var(--color-accent)]': $route.name === item.name || (item.name === 'dashboard' && $route.path === '/'), 'text-[var(--color-text-secondary)]': !($route.name === item.name || (item.name === 'dashboard' && $route.path === '/')) }" />
+                <span v-if="!collapsed" class="whitespace-nowrap">{{ item.label }}</span>
+              </div>
+              <span v-if="item.pro && !collapsed" class="text-[8px] font-black bg-[var(--color-accent-bg)] text-[var(--color-accent)] px-1.5 py-0.5 rounded-md uppercase tracking-tighter border border-[var(--color-accent)]/10">PRO</span>
+              <div v-if="item.pro && collapsed" class="absolute -top-1 -right-1 w-2.5 h-2.5 bg-[var(--color-accent)] rounded-full border-2 border-[var(--color-surface-secondary)]"></div>
             </div>
-          </router-link>
+          </div>
         </div>
       </div>
 
       <div class="mb-4">
         <p v-if="!collapsed" class="text-[11px] font-medium text-[var(--color-text-tertiary)] uppercase tracking-wider mb-2 px-2 whitespace-nowrap">Controle Financeiro</p>
         <div class="flex flex-col gap-0.5">
-          <router-link
+          <div
             v-for="item in navGroup2"
             :key="item.name"
-            :to="item.to"
-            class="group flex items-center px-3 py-2 rounded-xl cursor-pointer transition-all duration-150 text-[var(--color-text-secondary)] text-[13px] font-medium no-underline hover:bg-[var(--color-hover)] hover:text-[var(--color-text-primary)]"
+            class="group flex items-center px-3 py-2 rounded-xl cursor-pointer transition-all duration-150 text-[var(--color-text-secondary)] text-[13px] font-medium no-underline hover:bg-[var(--color-hover)] hover:text-[var(--color-text-primary)] relative"
             :title="collapsed ? item.label : ''"
             :class="{ 'bg-[var(--color-accent-bg)]! text-[var(--color-accent)]!': $route.name === item.name }"
-            @click="$emit('navigate')"
+            @click="handleNav(item)"
           >
-            <div class="flex items-center gap-3">
-              <component :is="item.icon" class="w-[18px] h-[18px] shrink-0" :class="{ 'text-[var(--color-accent)]': $route.name === item.name, 'text-[var(--color-text-secondary)]': $route.name !== item.name }" />
-              <span v-if="!collapsed" class="whitespace-nowrap">{{ item.label }}</span>
+            <div class="flex items-center justify-between w-full">
+              <div class="flex items-center gap-3">
+                <component :is="item.icon" class="w-[18px] h-[18px] shrink-0" :class="{ 'text-[var(--color-accent)]': $route.name === item.name, 'text-[var(--color-text-secondary)]': $route.name !== item.name }" />
+                <span v-if="!collapsed" class="whitespace-nowrap">{{ item.label }}</span>
+              </div>
+              <span v-if="item.pro && !collapsed" class="text-[8px] font-black bg-[var(--color-accent-bg)] text-[var(--color-accent)] px-1.5 py-0.5 rounded-md uppercase tracking-tighter border border-[var(--color-accent)]/10">PRO</span>
+              <div v-if="item.pro && collapsed" class="absolute -top-1 -right-1 w-2.5 h-2.5 bg-[var(--color-accent)] rounded-full border-2 border-[var(--color-surface-secondary)]"></div>
             </div>
-          </router-link>
+          </div>
         </div>
       </div>
     </div>
@@ -70,18 +79,21 @@
         @click="$emit('navigate')"
       >
         <div class="flex items-center gap-3">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="shrink-0" :class="{ 'text-[var(--color-accent)]': $route.name === 'settings', 'text-[var(--color-text-secondary)]': $route.name !== 'settings' }"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="shrink-0" :class="{ 'text-[var(--color-accent)]': $route.name === 'settings', 'text-[var(--color-text-secondary)]': $route.name !== 'settings' }"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
           <span v-if="!collapsed" class="whitespace-nowrap">Configurações</span>
         </div>
       </router-link>
-      <button class="w-full bg-[var(--color-surface-secondary)] border border-[var(--color-border)] rounded-md px-3 py-1.5 cursor-pointer text-xs font-semibold text-[var(--color-text-secondary)] font-[var(--font-sans)] transition-all duration-150 hover:bg-[var(--color-hover)] hover:text-[var(--color-text-primary)] flex items-center justify-center" :title="collapsed ? 'Trocar Tema' : ''" @click="toggleTheme">
-        <svg v-if="collapsed" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v1m0 16v1m9-9h-1M4 9H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707m12.728 0l-.707-.707M6.343 6.343l-.707-.707"></path><circle cx="12" cy="12" r="4"></circle></svg>
-        <span v-else>{{ theme === 'dark' ? 'Modo Light' : 'Modo Dark' }}</span>
-      </button>
+      
+      <div v-if="!collapsed" class="mt-4 p-4 rounded-2xl bg-[var(--color-surface-secondary)] border border-[var(--color-border)] shadow-sm">
+        <p class="text-[9px] font-black text-[var(--color-text-secondary)] uppercase tracking-wider mb-1">Aurea Finance</p>
+        <p class="text-[11px] text-[var(--color-text-secondary)] leading-tight mb-3 font-medium">Você está na versão Lite.</p>
+        <button @click="$router.push('/upgrade'); $emit('navigate')" class="w-full py-2 bg-[var(--color-accent)] text-white text-[10px] font-black rounded-lg hover:brightness-110 transition-all uppercase tracking-widest">Conhecer Pro</button>
+      </div>
+
       <!-- Fully Synchronized Footer Sidebar -->
       <div v-if="!collapsed" class="mt-auto px-4 py-6 border-t border-[var(--color-border)] flex flex-col items-center text-center anim-fade">
-        <p class="text-[9px] font-bold text-[var(--color-text-tertiary)] uppercase tracking-[0.2em] mb-1.5">Desenvolvido por</p>
-        <p class="text-[13.5px] font-medium text-[var(--color-text-primary)] tracking-tight mb-2">Anne Dornelas</p>
+        <p class="text-[9px] font-bold text-[var(--color-text-secondary)] uppercase tracking-[0.2em] mb-1.5 opacity-80">Desenvolvido por</p>
+        <p class="text-[14px] font-black text-[var(--color-text-primary)] tracking-tight mb-2">Anne Dornelas</p>
         
         <p class="text-[8px] font-medium text-[var(--color-text-tertiary)] leading-normal opacity-50 uppercase tracking-wider max-w-[200px]">
           © 2026 Aurea Finance — Protegido pela Lei nº 9.610/98.
@@ -96,15 +108,29 @@
 
 <script setup>
 import { defineProps, defineEmits, h } from 'vue'
+import { useRouter } from 'vue-router'
 import { useTheme } from '../composables/useTheme.js'
+import { useEventBus } from '../composables/useEventBus.js'
 
 const props = defineProps({
   collapsed: Boolean
 })
 
-defineEmits(['navigate'])
+const emit = defineEmits(['navigate'])
+const router = useRouter()
+const { emit: busEmit } = useEventBus()
 
 const { theme, toggleTheme } = useTheme()
+
+function handleNav(item) {
+  if (item.pro) {
+    router.push('/upgrade')
+    emit('navigate')
+  } else {
+    router.push(item.to)
+    emit('navigate')
+  }
+}
 
 // Icons components inline
 const IconDashboard = (props) => h('svg', { ...props, viewBox: '0 0 24 24', fill: 'none', stroke: 'currentColor', 'stroke-width': '2', 'stroke-linecap': 'round', 'stroke-linejoin': 'round' }, [
@@ -155,15 +181,15 @@ const IconCalendar = (props) => h('svg', { ...props, viewBox: '0 0 24 24', fill:
 ])
 
 const navGroup1 = [
-  { name: 'dashboard',     to: '/',             label: 'Visão Geral', icon: IconDashboard },
-  { name: 'annual',        to: '/anual',        label: 'Visão Anual', icon: IconCalendar },
-  { name: 'transactions',  to: '/transacoes',   label: 'Transações',  icon: IconArrows },
-  { name: 'cards',         to: '/cartoes',      label: 'Cartões',     icon: IconCreditCard },
-  { name: 'stock',         to: '/estoque',       label: 'Compras',    icon: IconBox },
+  { name: 'dashboard',     to: '/',             label: 'Visão Geral', icon: IconDashboard, pro: false },
+  { name: 'annual',        to: '/anual',        label: 'Visão Anual', icon: IconCalendar, pro: true },
+  { name: 'transactions',  to: '/transacoes',   label: 'Transações',  icon: IconArrows, pro: false },
+  { name: 'cards',         to: '/cartoes',      label: 'Cartões',     icon: IconCreditCard, pro: false },
+  { name: 'stock',         to: '/estoque',       label: 'Compras',    icon: IconBox, pro: true },
 ]
 
 const navGroup2 = [
-  { name: 'categories',    to: '/categorias',   label: 'Categorias', icon: IconList },
-  { name: 'subscriptions', to: '/assinaturas',  label: 'Assinaturas', icon: IconRefresh },
+  { name: 'categories',    to: '/categorias',   label: 'Categorias', icon: IconList, pro: false },
+  { name: 'subscriptions', to: '/assinaturas',  label: 'Assinaturas', icon: IconRefresh, pro: true },
 ]
 </script>

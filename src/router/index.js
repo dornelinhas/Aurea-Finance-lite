@@ -8,6 +8,7 @@ import SubscriptionsView from '../views/SubscriptionsView.vue'
 import StockView from '../views/StockView.vue'
 import SettingsView from '../views/SettingsView.vue'
 import AnnualView from '../views/AnnualView.vue'
+import UpgradeView from '../views/UpgradeView.vue'
 
 const routes = [
   { path: '/',              name: 'dashboard',     component: DashboardView },
@@ -18,6 +19,7 @@ const routes = [
   { path: '/anual',          name: 'annual',        component: AnnualView },
   { path: '/estoque',       name: 'stock',         component: StockView },
   { path: '/configuracoes', name: 'settings',      component: SettingsView },
+  { path: '/upgrade',       name: 'upgrade',       component: UpgradeView },
 ]
 
 const router = createRouter({

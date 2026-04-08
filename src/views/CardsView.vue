@@ -207,17 +207,6 @@
         </div>
       </div>
 
-      <div class="mb-4">
-        <label class="block text-xs font-semibold text-[var(--color-text-secondary)] mb-1.5 uppercase tracking-wider">Cor do Cartão</label>
-        <div class="flex items-center gap-3">
-          <div class="relative w-10 h-10 rounded-full overflow-hidden border border-[var(--color-border)] shadow-sm">
-            <input type="color" v-model="form.color" class="absolute -top-2 -left-2 w-16 h-16 cursor-pointer opacity-0" />
-            <div class="w-full h-full pointer-events-none" :style="{ backgroundColor: form.color }"></div>
-          </div>
-          <span class="text-sm text-[var(--color-text-secondary)] font-medium">{{ form.color.toUpperCase() }}</span>
-        </div>
-      </div>
-
       <template #footer>
         <button class="inline-flex items-center justify-center gap-1.5 px-4.5 py-2.5 rounded-lg text-sm font-semibold cursor-pointer transition-all duration-150 border border-[var(--color-border)] bg-[var(--color-surface-secondary)] text-[var(--color-text-primary)] hover:bg-[var(--color-hover)]" @click="closeModal">Cancelar</button>
         <button class="inline-flex items-center justify-center gap-1.5 px-4.5 py-2.5 rounded-lg text-sm font-semibold cursor-pointer transition-all duration-150 border-none bg-[var(--color-accent)] text-white hover:bg-[var(--color-accent-hover)]" @click="save">{{ editing ? 'Salvar' : 'Cadastrar' }}</button>
@@ -372,6 +361,13 @@ function closeModal() {
 
 async function save() {
   if (!form.value.name) return
+
+  if (!editing.value && cards.value.length >= 3) {
+    closeModal()
+    busEmit('open-upgrade-modal')
+    return
+  }
+
   if (editing.value) {
     const updated = await api.updateCreditCard(editing.value, form.value)
     cards.value = cards.value.map(c => c.id === editing.value ? updated : c)

@@ -63,13 +63,13 @@
           <p class="text-[9px] md:text-[10px] font-black uppercase tracking-[0.3em] mb-3 md:mb-4 opacity-80">Acesso Vitalício + Site</p>
           <div class="flex items-start gap-1 mb-2">
             <span class="text-xl md:text-2xl font-bold mt-1 md:mt-2">R$</span>
-            <span class="text-5xl md:text-7xl font-black tracking-tighter leading-none">35,00</span>
+            <span class="text-5xl md:text-7xl font-black tracking-tighter leading-none">34,90</span>
           </div>
           <p class="text-white/80 text-sm md:font-medium mb-6 md:mb-8">Pagamento único. Software e site para sempre.</p>
           
           <div class="flex flex-col w-full max-w-[450px] gap-4 md:gap-5">
             <div class="flex flex-col gap-2">
-              <a href="https://buy.stripe.com/dRm7sK9zbeLZ3e664a6AM01" target="_blank" class="w-full bg-white text-[var(--color-accent)] py-4 md:py-5 rounded-2xl font-black text-sm md:text-base shadow-lg hover:scale-[1.03] active:scale-[0.97] transition-all no-underline flex items-center justify-center gap-2 uppercase tracking-wide">
+              <a href="https://buy.stripe.com/cNi14mbHjcDRg0SgIO6AM02" target="_blank" class="w-full bg-white text-[var(--color-accent)] py-4 md:py-5 rounded-2xl font-black text-sm md:text-base shadow-lg hover:scale-[1.03] active:scale-[0.97] transition-all no-underline flex items-center justify-center gap-2 uppercase tracking-wide">
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect><line x1="1" y1="10" x2="23" y2="10"></line></svg>
                 Pagar com Cartão
               </a>

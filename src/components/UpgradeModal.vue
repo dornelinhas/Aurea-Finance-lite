@@ -39,9 +39,9 @@
         </div>
       </div>
 
-      <button class="w-full bg-[var(--color-accent)] text-white py-4 rounded-2xl font-bold text-sm shadow-[0_8px_20px_-4px_var(--color-accent)] hover:scale-[1.02] active:scale-[0.98] transition-all duration-200 uppercase tracking-widest" @click="$emit('upgrade')">
-        Atualizar para o Pro — R$ 19,90
-      </button>
+      <a href="https://buy.stripe.com/cNi14mbHjcDRg0SgIO6AM02" target="_blank" class="w-full bg-[var(--color-accent)] text-white py-4 rounded-2xl font-bold text-sm shadow-[0_8px_20px_-4px_var(--color-accent)] hover:scale-[1.02] active:scale-[0.98] transition-all duration-200 uppercase tracking-widest no-underline flex items-center justify-center" @click="$emit('upgrade')">
+        Atualizar para o Pro — R$ 34,90
+      </a>
       
       <p class="mt-4 text-[10px] text-[var(--color-text-tertiary)] font-medium uppercase tracking-widest">Pagamento único • Acesso vitalício</p>
     </div>
